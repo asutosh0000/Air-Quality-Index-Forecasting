@@ -26,7 +26,8 @@ features.remove(target)
 
 X = df[features]
 y = df[target]
-
+y = y.values.reshape(-1, 1)
+y = MinMaxScaler().fit_transform(y).flatten()
 # Normalize
 scaler = MinMaxScaler()
 X_scaled = scaler.fit_transform(X)
@@ -39,6 +40,6 @@ X_selected = selector.fit_transform(X_scaled, y)
 # SAVE IN scripts FOLDER
 # =========================
 np.save(os.path.join(DATA_DIR, "X_processed.npy"), X_selected)
-np.save(os.path.join(DATA_DIR, "y_processed.npy"), y.values)
+np.save(os.path.join(DATA_DIR, "y_processed.npy"), y)
 
 print("Preprocessed data saved in scripts folder")
