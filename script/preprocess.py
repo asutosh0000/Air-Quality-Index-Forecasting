@@ -26,8 +26,12 @@ features.remove(target)
 
 X = df[features]
 y = df[target]
+# scaler_y = MinMaxScaler()
+# y = y.values.reshape(-1, 1)
+# y = scaler_y.fit_transform(y).flatten()
+scaler_y = MinMaxScaler()
 y = y.values.reshape(-1, 1)
-y = MinMaxScaler().fit_transform(y).flatten()
+y = scaler_y.fit_transform(y).flatten()
 # Normalize
 scaler = MinMaxScaler()
 X_scaled = scaler.fit_transform(X)

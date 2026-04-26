@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 from sklearn.metrics import r2_score
 import os
+from sklearn.preprocessing import MinMaxScaler
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
@@ -10,6 +11,9 @@ DATA_DIR = os.path.join(BASE_DIR, "data")
 # Load processed data
 X = np.load(os.path.join(DATA_DIR, "X_processed.npy"))
 y = np.load(os.path.join(DATA_DIR, "y_processed.npy"))
+# scaler_y = MinMaxScaler()   # ✅ define here
+# y = y.reshape(-1, 1)
+# y = scaler_y.fit_transform(y).flatten()
 
 # Create sequences
 SEQ_LEN = 10
@@ -26,6 +30,13 @@ y_seq = np.array(y_seq, dtype=np.float32)
 split = int(0.8 * len(X_seq))
 X_train, X_test = X_seq[:split], X_seq[split:]
 y_train, y_test = y_seq[:split], y_seq[split:]
+
+
+scaler_y = MinMaxScaler()
+
+y_train = scaler_y.fit_transform(y_train.reshape(-1, 1)).flatten()
+y_test = scaler_y.transform(y_test.reshape(-1, 1)).flatten()
+
 
 # Convert to tensor
 X_train = torch.tensor(X_train)
@@ -70,8 +81,12 @@ for epoch in range(10):
 model.eval()
 y_pred = model(X_test).detach().numpy().flatten()
 
-rmse = np.sqrt(np.mean((y_test.numpy() - y_pred)**2))
-r2 = r2_score(y_test.numpy(), y_pred)
+y_pred = scaler_y.inverse_transform(y_pred.reshape(-1, 1)).flatten()
+y_test_np = scaler_y.inverse_transform(y_test.numpy().reshape(-1, 1)).flatten()
+
+rmse = np.sqrt(np.mean((y_test_np - y_pred)**2))
+r2 = r2_score(y_test_np, y_pred)
+
 
 print("CNN-LSTM Results")
 print("RMSE:", rmse)
