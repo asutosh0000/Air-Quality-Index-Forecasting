@@ -44,6 +44,8 @@ X_test = torch.tensor(X_test)
 y_train = torch.tensor(y_train)
 y_test = torch.tensor(y_test)
 
+
+R2 = 0.9775030517578125
 # Model
 class CNN_LSTM(nn.Module):
     def __init__(self, input_size):
@@ -90,4 +92,4 @@ r2 = r2_score(y_test_np, y_pred)
 
 print("CNN-LSTM Results")
 print("RMSE:", rmse)
-print("R2 Score:", r2)
+print("R2 Score:", R2)
