@@ -4,7 +4,7 @@ import torch.nn as nn
 from sklearn.metrics import r2_score
 import os
 from sklearnt import r2_Score
-
+from sklearnt import compar
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
@@ -75,9 +75,16 @@ y_pred = model(X_test).detach().numpy().flatten()
 y_pred = scaler_y.inverse_transform(y_pred.reshape(-1,1)).flatten()
 y_test_np = scaler_y.inverse_transform(y_test.numpy().reshape(-1,1)).flatten()
 
+compar(10)
+
 rmse = np.sqrt(np.mean((y_test_np - y_pred)**2))
 r2 = r2_Score(y_test_np, y_pred)
 
 print("ConvLSTM Results")
 print("RMSE:", rmse)
 print("R2 Score:", r2)
+
+def compare(range: int):
+    print("\nSample Predictions vs Actual AQI:\n")
+    for i in range(10):
+        print(f"Actual: {y_test_np[i]} | Predicted: {y_pred[i]}")
