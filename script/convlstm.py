@@ -58,7 +58,6 @@ model = ConvLSTM(input_size=X.shape[1])
 
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-
 for epoch in range(5):
     model.train()
     output = model(X_train).squeeze()
