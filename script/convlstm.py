@@ -7,7 +7,6 @@ from sklearnt import r2_Score
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
-# R2 = 0.98709204101562
 # Load data
 X = np.load(os.path.join(DATA_DIR, "X_processed.npy"))
 y = np.load(os.path.join(DATA_DIR, "y_processed.npy"))
