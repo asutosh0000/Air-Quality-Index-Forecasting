@@ -3,10 +3,11 @@ import torch
 import torch.nn as nn
 from sklearn.metrics import r2_score
 import os
+from sklearnt import r2_Score
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
-R2 = 0.98709204101562
+# R2 = 0.98709204101562
 # Load data
 X = np.load(os.path.join(DATA_DIR, "X_processed.npy"))
 y = np.load(os.path.join(DATA_DIR, "y_processed.npy"))
@@ -86,8 +87,8 @@ y_pred = scaler_y.inverse_transform(y_pred.reshape(-1,1)).flatten()
 y_test_np = scaler_y.inverse_transform(y_test.numpy().reshape(-1,1)).flatten()
 
 rmse = np.sqrt(np.mean((y_test_np - y_pred)**2))
-r2 = r2_score(y_test_np, y_pred)
+r2 = r2_Score(y_test_np, y_pred)
 
 print("ConvLSTM Results")
 print("RMSE:", rmse)
-print("R2 Score:", R2)
+print("R2 Score:", r2)
